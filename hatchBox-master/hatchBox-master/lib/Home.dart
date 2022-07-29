@@ -121,27 +121,24 @@ class _HomePPState extends State<HomePP> {
                                   fontSize: 25,
                                   color: Color.fromRGBO(0, 0, 139, 1)),
                             ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.search_rounded,
+
+                                Container(
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(40),
+                                    color: Colors.white,
                                   ),
-                                  iconSize: 30,
-                                  onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                    return Search();
-                                  }));},
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.logout,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.search_rounded,
+                                    ),
+                                    iconSize: 30,
+                                    onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                      return Search();
+                                    }));},
                                   ),
-                                  iconSize: 30,
-                                  onPressed: () => FirebaseAuth.instance.signOut(),
                                 ),
 
-                              ],
-                            )
                           ],
                         ),
                       ),
@@ -315,7 +312,10 @@ class _HomePPState extends State<HomePP> {
       ),
     );
   }
+  Future signout() async{
+    await FirebaseAuth.instance.signOut();
 
+  }
 }
 
 // ignore: camel_case_types
@@ -427,4 +427,5 @@ class Product extends StatelessWidget {
       ]),
     );
   }
+
 }

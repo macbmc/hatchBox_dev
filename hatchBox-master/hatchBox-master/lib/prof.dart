@@ -39,7 +39,8 @@ class _ProfPState extends State<ProfP> {
                   height: 350,
                   width: MediaQuery.of(context).size.width * 1.2,
                   decoration: const BoxDecoration(
-                      color: Color.fromRGBO(210, 65, 133, 1),
+                      //color: Color.fromRGBO(210, 65, 133, 1),
+                    color: Colors.brown,
                       borderRadius:
                       BorderRadius.only(bottomRight: Radius.circular(500))),
                 ),
@@ -65,7 +66,13 @@ class _ProfPState extends State<ProfP> {
                             color: Colors.white,),
                         ),
                         Text("Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),
-                        IconButton(onPressed:(){},color: Colors.white, icon:Icon(Icons.power_settings_new))
+                        IconButton(
+                          icon: Icon(
+                            Icons.logout,
+                          ),
+                          iconSize: 30,
+                          onPressed: (){signout();},
+                        ),
                       ],
                     ),
 
@@ -100,110 +107,124 @@ class _ProfPState extends State<ProfP> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: 500,
-                      height: 1,
-                      color: Colors.yellow,
-                    ),
-                    GestureDetector(
-                      onTap: (){},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              border: Border.all(
-                                color: Colors.blueGrey,
+
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: (){},
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            elevation: 10.0,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child:  Icon(Icons.settings,color: Colors.white,size: 28,),
-                          ),
-                          Text("Settings",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.blueGrey,size: 28,),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: (){},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              border: Border.all(
-                                color: Colors.blueGrey,
+                              width: MediaQuery.of(context).size.width/2.9,
+                              height: 80,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.settings,size: 28,color: Colors.brown,),
+                                  Text(" Settings",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                ],
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
+
+
                             ),
-                            child:  Icon(Icons.payment_outlined,color: Colors.white,size: 28,),
                           ),
-                          Text("Card Info",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.blueGrey,size: 28,),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                          return Order();
-                        }));},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              border: Border.all(
-                                color: Colors.blueGrey,
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                              return Order();
+                            }));},
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            elevation: 10.0,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child:  Icon(Icons.timer,color: Colors.white,size: 28,),
-                          ),
-                          Text("Orders   ",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.blueGrey,size: 28,),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 500,
-                      height: 1,
-                      color: Colors.yellow,
-                    ),
-                    GestureDetector(
-                      onTap: (){},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              border: Border.all(
-                                color: Colors.blueGrey,
+                              width: MediaQuery.of(context).size.width/2.9,
+                              height: 80,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Icon(Icons.timer,size: 28,color: Colors.brown,),
+                                  Text("Orders",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                ],
                               ),
-                              borderRadius: BorderRadius.circular(20.0),
+
+
                             ),
-                            child:  Icon(Icons.phone,color: Colors.white,size: 28,),
                           ),
-                          Text("Contact Us",style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
-                          Icon(Icons.arrow_forward_ios_outlined,color: Colors.blueGrey,size: 28,),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 50,
-                    )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: (){},
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            elevation: 10.0,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              width: MediaQuery.of(context).size.width/2.9,
+                              height: 80,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.money,size: 28,color: Colors.brown,),
+                                  Text("Payments",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+
+
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){},
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            elevation: 10.0,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white,
+                              ),
+                              width: MediaQuery.of(context).size.width/2.9,
+                              height: 80,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.phone,size: 28,color: Colors.brown,),
+                                  Text("Grievances",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                              
+
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 30,),
                   ],
                 ),
               ),
@@ -212,5 +233,9 @@ class _ProfPState extends State<ProfP> {
         ),
       ),
     );
+  }
+  Future signout() async{
+    await FirebaseAuth.instance.signOut();
+
   }
 }

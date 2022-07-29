@@ -57,7 +57,7 @@ class _SearchState extends State<Search> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.brown,
         elevation: 0,
         leading: IconButton(onPressed:(){Navigator.of(context).push(MaterialPageRoute(builder: (context){
           return HomeP();
@@ -91,7 +91,7 @@ class _SearchState extends State<Search> {
                 ),
               ),
               hintText: "Search",
-              hintStyle: TextStyle(color: Color(0xff4c505b)),
+              hintStyle: TextStyle(color: Color(0xffEEF2EB)),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               )
