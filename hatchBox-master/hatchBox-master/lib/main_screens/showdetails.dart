@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Ar_view.dart';
+import 'package:hatch_box/main_screens/Ar_view.dart';
 
 class showdetails extends StatelessWidget {
   const showdetails(

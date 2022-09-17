@@ -1,22 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Ar_view.dart';
-import 'package:hatch_box/Home.dart';
+import 'package:hatch_box/function_screens/prodtable.dart';
+import 'package:hatch_box/main_screens/Ar_view.dart';
+import 'package:hatch_box/main_screens/Home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hatch_box/cart.dart';
-import 'package:hatch_box/orders.dart';
-import 'package:hatch_box/pay.dart';
-import 'package:hatch_box/update.dart';
+import 'package:hatch_box/main_screens/cart.dart';
+import 'package:hatch_box/main_screens/orders.dart';
+import 'package:hatch_box/side_screens/pay.dart';
+import 'package:hatch_box/side_screens/update.dart';
 class DetP extends StatefulWidget {
   const DetP({Key? key,required this.ImgPath,
     required this.name,
     required this.discount,
     required this.mrp,
-    required this.your_price, required this.ls,
-    required this.ss, required this.rev
+    required this.your_price, required this.ls,required this.cat,
+    required this.ss, required this.rev,required this.status
   }) : super(key: key);
-  final String ImgPath, name,discount,mrp,your_price,ls,ss,rev;
+  final String ImgPath, name,discount,mrp,your_price,ls,ss,rev,status,cat;
   @override
   State<DetP> createState() => _DetPState();
 }
@@ -28,6 +29,7 @@ class _DetPState extends State<DetP> {
     CollectionReference _collectionref = FirebaseFirestore.instance.collection("user-cart");
     return _collectionref.doc(currentuser!.email).collection("prod").doc()
         .set({
+      "category":widget.cat,
       "prod_name":widget.name,
       "price":widget.your_price,
       "image":widget.ImgPath,
@@ -35,8 +37,8 @@ class _DetPState extends State<DetP> {
       "mrp":widget.mrp,
       "long_description":widget.ls,
       "short_description":widget.ss,
-      "rev":widget.rev
-
+      "rev":widget.rev,
+      "status":widget.status
     }).then((value) => print("Added to cart "));
   }
   Future addtoWishlist()async{
@@ -44,6 +46,7 @@ class _DetPState extends State<DetP> {
     CollectionReference _collectionref = FirebaseFirestore.instance.collection("user-wishlist");
     return _collectionref.doc(currentuser!.email).collection("item").doc()
         .set({
+      "category":widget.cat,
       "prod_name":widget.name,
       "price":widget.your_price,
       "image":widget.ImgPath,
@@ -51,7 +54,8 @@ class _DetPState extends State<DetP> {
       "mrp":widget.mrp,
       "long_description":widget.ls,
       "short_description":widget.ss,
-      "rev":widget.rev
+      "rev":widget.rev,
+      "status":widget.status
     }).then((value) => print("Added to wishlist"));
   }
   @override
@@ -99,23 +103,7 @@ class _DetPState extends State<DetP> {
                     ),
                   ),
                   SizedBox(height: 30,),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:MaterialStateProperty.all(Colors.brown),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            side: BorderSide(
-                              color: Colors.white,
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                          return ARViewScreen(itemImg:widget.ImgPath,);
-                        }));}, child: Text("AR Experience",style: TextStyle(fontSize: 20),)),
+
                   Container(
                     padding: EdgeInsets.only(top: 25.0,right: 20.0,left: 15.0),
                     margin: EdgeInsets.all(10.0),
@@ -130,7 +118,7 @@ class _DetPState extends State<DetP> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${widget.ss}",style: TextStyle(fontSize:20),),
+                        Text("${widget.name}",style: TextStyle(fontSize:20),),
                         SizedBox(
                           height: 20,
                         ),
@@ -156,6 +144,23 @@ class _DetPState extends State<DetP> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold, fontSize: 23,color: Colors.red),
                                 ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width/3,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "- ${widget.discount}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold, fontSize: 18,color: Colors.red),
+                                    ),
+                                    Text(
+                                      "%",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold, fontSize: 18,color: Colors.red),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ],
@@ -166,7 +171,7 @@ class _DetPState extends State<DetP> {
                   Container(
                     padding: EdgeInsets.only(top: 25.0,right: 20.0,left: 15.0),
                     margin: EdgeInsets.all(10.0),
-                    height: MediaQuery.of(context).size.height/3.2,
+                    height: MediaQuery.of(context).size.height/2.5,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -177,7 +182,7 @@ class _DetPState extends State<DetP> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Product Details",style: TextStyle(fontSize:15,color: Colors.purple),),
+                        Text("Product Details",style: TextStyle(fontSize:18,color: Colors.purple),),
                         SizedBox(
                           height: 15,
                         ),
@@ -185,26 +190,90 @@ class _DetPState extends State<DetP> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 25.0,right: 20.0,left: 15.0),
-                    margin: EdgeInsets.all(10.0),
-                    height: MediaQuery.of(context).size.height/5,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        //color: Color.fromRGBO(220, 212, 220, 5),
-                        //borderRadius:  BorderRadius.only(topRight: Radius.circular(40)),
-                        borderRadius: BorderRadius.all(Radius.circular(40.0))
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Review",style: TextStyle(fontSize:15,color: Colors.purple),),
-                        SizedBox(
-                          height: 15,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap:(){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+            return HomeP();
+            }));},
+                        child: Container(
+                          //padding: EdgeInsets.only(top: 20.0,right: 20.0,left: 15.0),
+                          margin: EdgeInsets.all(10.0),
+                          height:60,
+                          width: MediaQuery.of(context).size.width/3,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              //color: Color.fromRGBO(220, 212, 220, 5),
+                              //borderRadius:  BorderRadius.only(topRight: Radius.circular(40)),
+                              borderRadius: BorderRadius.all(Radius.circular(40.0))
+                          ),
+                          child: Center(child: Text("Reviews",style: TextStyle(fontSize:20,color: Colors.red),)),
+                              //sText("${widget.rev}"
+
                         ),
-                        Text("${widget.rev}")
+                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:MaterialStateProperty.all(Colors.brown),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed:(){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                              return ARViewScreen(itemImg:widget.ImgPath,);
+                            }));}, child: Text("AR Experience",style: TextStyle(fontSize: 20),)),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Related Products:",style: TextStyle(fontSize:20,color: Colors.purple),),
+                        GestureDetector(child: Text("more",style: TextStyle(fontSize:15,color: Colors.red),)),
                       ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height/4,
+                    width:  MediaQuery.of(context).size.width,
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance.collection('home').where('category',isEqualTo:widget.cat).snapshots(),
+                        builder: (BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot){
+                          if(snapshot.hasError)
+                          {
+                            return Text("Some Unknown Error has occured please try again");
+                          }
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (_,index){
+                              DocumentSnapshot _snap=snapshot.data!.docs[index];
+                              return TableProd(
+                                Img:_snap['image'].toString(),
+                                name:_snap['name'].toString(),
+                                discount: _snap['discount'].toString(),
+                                mrp: _snap['mrp'].toString(),
+                                your_price: _snap['your_price'].toString(),
+                                cat: _snap['category'].toString(),
+                                long_description: _snap['long_description'].toString(),
+                                status: _snap['status'].toString(),
+                                short_description: _snap['short_description'].toString(),
+                                review: _snap['rev'].toString(),
+
+                              );
+                            },
+                          );
+                        }
                     ),
                   ),
                   Container(
@@ -232,7 +301,7 @@ class _DetPState extends State<DetP> {
                               Navigator.of(context).push(MaterialPageRoute(builder: (context){
                            return Cart();
                           }));},
-                    child: Text("Checkout",style: TextStyle(fontSize: 20),)),
+                    child: Text("Buy Now",style: TextStyle(fontSize: 20),)),
                         ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:MaterialStateProperty.all(Colors.brown),

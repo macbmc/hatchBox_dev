@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hatch_box/Home.dart';
-import 'package:hatch_box/cart.dart';
-import 'package:hatch_box/messages.dart';
-import 'package:hatch_box/prof.dart';
-import 'package:hatch_box/wishlist.dart';
+import 'package:hatch_box/main_screens/Home.dart';
+import 'package:hatch_box/main_screens/cart.dart';
+import 'package:hatch_box/side_screens/messages.dart';
+import 'package:hatch_box/side_screens/prof.dart';
+import 'package:hatch_box/main_screens/wishlist.dart';
 
 
 class TablePP extends StatefulWidget {
@@ -37,8 +37,10 @@ class _TablePPState extends State<TablePP> {
                         ),
                         iconSize: 25,
                         color: Colors.brown,),
-                      Text("PRODUCTS",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold,color: Colors.purple),),
-                      IconButton(onPressed:(){},color: Colors.brown, icon:Icon(Icons.shopping_cart,size: 25,),)
+                      Text("Merchs",style: TextStyle(fontSize: 23,fontWeight: FontWeight.bold,color: Colors.purple),),
+                      IconButton(onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                        return Cart();
+                      }));},color: Colors.brown, icon:Icon(Icons.shopping_cart,size: 25,),)
                     ],
                   ),
                   SizedBox(height: 20,),

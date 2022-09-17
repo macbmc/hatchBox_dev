@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
+import 'package:hatch_box/main_screens/Home.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnBoardPP extends StatefulWidget {

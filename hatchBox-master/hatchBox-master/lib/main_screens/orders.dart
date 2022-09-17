@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
+import 'package:hatch_box/main_screens/Home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hatch_box/inspect.dart';
+import 'package:hatch_box/main_screens/inspect.dart';
+import 'package:hatch_box/side_screens/prof.dart';
 
 
 class Order extends StatefulWidget {
@@ -24,20 +25,23 @@ class _OrderState extends State<Order> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(onPressed:(){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                        return HomeP();
+                        return ProfP();
                       }));},
                       icon:Icon(
                         Icons.arrow_back_ios_outlined,color: Colors.black,
                       ),
                       iconSize: 25,
                       color: Colors.brown,),
-                    Text("Orders",style: TextStyle(fontSize: 20,color: Colors.amber,fontWeight: FontWeight.bold),)
-                    ,IconButton(onPressed: () {}, icon: Icon(Icons.home)),
+                    Text("ORDERS",style: TextStyle(fontSize: 25,color: Colors.amber,fontWeight: FontWeight.bold),)
+                    ,IconButton(onPressed:(){Navigator.of(context).push(MaterialPageRoute(builder: (context){
+        return HomeP();
+      }));},icon: Icon(Icons.home)),
                   ],
                 ),
                 SizedBox(height: 30,),
@@ -54,7 +58,7 @@ class _OrderState extends State<Order> {
                       stream:FirebaseFirestore.instance.collection("user-order").doc(FirebaseAuth.instance
                           .currentUser!.email).collection("prod").snapshots(),
                       builder: (BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot){
-                        if(snapshot.hasError)
+                        if(snapshot.hasData)
                         {
                           return Center(child: Text("Ntho Evdyo oru Prashnm"),);
                         }
@@ -68,7 +72,7 @@ class _OrderState extends State<Order> {
                                       .push(MaterialPageRoute(builder: (context) {
                                     return DetP(ImgPath:_snap['image'].toString(),discount:_snap['discount'].toString(),mrp: _snap['mrp'].toString(),
                                         name: _snap['prod_name'].toString(),your_price: _snap['price'].toString(),ls: _snap['long_description'].toString(),ss:_snap['short_description'].toString(),
-                                        rev: _snap['rev'].toString());
+                                        rev: _snap['rev'].toString(),status:_snap['status'].toString(),cat:_snap['category'].toString(),);
                                   }));
                                 },
                                 child: SizedBox(

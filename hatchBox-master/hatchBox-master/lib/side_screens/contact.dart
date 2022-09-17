@@ -1,20 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
-import 'package:hatch_box/orders.dart';
-import 'package:hatch_box/update.dart';
-class ProfP extends StatefulWidget {
-  const ProfP({Key? key}) : super(key: key);
+import 'package:hatch_box/side_screens/prof.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+class Contact extends StatefulWidget {
+  const Contact({Key? key}) : super(key: key);
 
   @override
-  State<ProfP> createState() => _ProfPState();
+  State<Contact> createState() => _ContactState();
 }
 
-class _ProfPState extends State<ProfP> {
-  final user = FirebaseAuth.instance.currentUser!;
+class _ContactState extends State<Contact> {
   @override
-  Widget build(BuildContext context) {
 
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
@@ -39,8 +37,8 @@ class _ProfPState extends State<ProfP> {
                   height: 350,
                   width: MediaQuery.of(context).size.width * 1.2,
                   decoration: const BoxDecoration(
-                      //color: Color.fromRGBO(210, 65, 133, 1),
-                    color: Colors.brown,
+                    //color: Color.fromRGBO(210, 65, 133, 1),
+                      color: Colors.brown,
                       borderRadius:
                       BorderRadius.only(bottomRight: Radius.circular(500))),
                 ),
@@ -49,71 +47,33 @@ class _ProfPState extends State<ProfP> {
                 //color: Colors.white,
                 padding: EdgeInsets.only(left: 10.0,right: 10.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          child: IconButton(onPressed:(){Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                            return HomeP();
-                          }));},
+                          child: IconButton(onPressed:(){
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) {
+              return ProfP();
+              }));
+              },
                             icon:Icon(
                               Icons.arrow_back_ios_outlined,
                             ),
                             iconSize: 30,
                             color: Colors.white,),
                         ),
-                        Text("Profile",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),
-                        IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                          ),
-                          iconSize: 30,
-                          onPressed: (){signout();},
-                        ),
+                        Text("Contact",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),),
+                        SizedBox(width: 30,)
                       ],
                     ),
 
-                    Container(
-                      width: 120,
-                      height: 120,
 
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.black54,
-                        ),
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(80.0),
-                      ),
-                      child: Image.asset("assets/—Pngtree—cute panda_643086.png"),
-                    ),
-                    Text(user.email.toString(),style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
-                    Text("@Elixir Techz",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.white),),
-                    Container(
-                      width: 150,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                          return UpdateP();
-                        }));},
-                        child: Text('Edit Profile >>',style: TextStyle(fontSize: 19),),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black38,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20), // <-- Radius
-                          ),
-                        ),
-                      ),
-                    ),
-
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
                         GestureDetector(
-                          onTap: (){},
+                          onTap: () {launchEmail();},
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
@@ -124,12 +84,13 @@ class _ProfPState extends State<ProfP> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white,
                               ),
-                              width: MediaQuery.of(context).size.width/2.9,
+                              width: 200,
                               height: 80,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(Icons.settings,size: 28,color: Colors.brown,),
-                                  Text(" Settings",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                  Icon(Icons.timer,size: 28,color: Colors.brown,),
+                                  Text("Email",style: TextStyle(fontSize: 20,color: Colors.black54,fontWeight: FontWeight.bold),)
                                 ],
                               ),
 
@@ -139,9 +100,8 @@ class _ProfPState extends State<ProfP> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                              return Order();
-                            }));},
+                            CALL("tel:7306548414");
+                            },
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
@@ -152,13 +112,13 @@ class _ProfPState extends State<ProfP> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white,
                               ),
-                              width: MediaQuery.of(context).size.width/2.9,
+                              width: 200,
                               height: 80,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Icon(Icons.timer,size: 28,color: Colors.brown,),
-                                  Text("Orders",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                  Text("Call",style: TextStyle(fontSize: 20,color: Colors.black54,fontWeight: FontWeight.bold),)
                                 ],
                               ),
 
@@ -166,13 +126,11 @@ class _ProfPState extends State<ProfP> {
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+
                         GestureDetector(
-                          onTap: (){},
+                          onTap: (){
+                            launchurl();
+                          },
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
@@ -183,12 +141,13 @@ class _ProfPState extends State<ProfP> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white,
                               ),
-                              width: MediaQuery.of(context).size.width/2.9,
+                              width: 200,
                               height: 80,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(Icons.money,size: 28,color: Colors.brown,),
-                                  Text("Payments",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                  Icon(Icons.timer,size: 28,color: Colors.brown,),
+                                  Text("Whatsapp",style: TextStyle(fontSize: 20,color: Colors.black54,fontWeight: FontWeight.bold),)
                                 ],
                               ),
 
@@ -197,7 +156,9 @@ class _ProfPState extends State<ProfP> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){},
+                          onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                            return Contact();
+                          }));},
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
@@ -208,21 +169,21 @@ class _ProfPState extends State<ProfP> {
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.white,
                               ),
-                              width: MediaQuery.of(context).size.width/2.9,
+                              width: 200,
                               height: 80,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(Icons.phone,size: 28,color: Colors.brown,),
-                                  Text("Grievances",style: TextStyle(fontSize: 17,color: Colors.black54,fontWeight: FontWeight.bold),)
+                                  Icon(Icons.timer,size: 28,color: Colors.brown,),
+                                  Text("Website",style: TextStyle(fontSize: 20,color: Colors.black54,fontWeight: FontWeight.bold),)
                                 ],
                               ),
-                              
+
 
                             ),
                           ),
                         ),
-                      ],
-                    ),
+
 
                     SizedBox(height: 30,),
                   ],
@@ -234,8 +195,26 @@ class _ProfPState extends State<ProfP> {
       ),
     );
   }
-  Future signout() async{
-    await FirebaseAuth.instance.signOut();
+  Future<void> CALL(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw "cannot launch $url";
+    }
+  }
 
+  launchurl() async {
+    const url = 'https://wa.me/919446862068?text=Hoiii';
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw "cannot launch $url";
+    }
+  }
+
+  launchEmail() async {
+    launchUrlString(
+      'mailto:macflutter17@gmail.com?subject=TestEmail&body=hi',
+    );
   }
 }

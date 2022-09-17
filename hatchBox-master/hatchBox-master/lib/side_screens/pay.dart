@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/cart.dart';
-import 'package:hatch_box/inspect.dart';
+import 'package:hatch_box/main_screens/cart.dart';
+import 'package:hatch_box/main_screens/inspect.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Pay extends StatefulWidget {

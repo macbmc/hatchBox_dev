@@ -1,8 +1,8 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
-import 'package:hatch_box/intro.dart';
-import 'package:hatch_box/login.dart';
-import 'package:hatch_box/splash.dart';
+import 'package:hatch_box/side_screens/intro.dart';
+import 'package:hatch_box/auth_screens/login.dart';
+import 'package:hatch_box/side_screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart'
     show ArCoreController;

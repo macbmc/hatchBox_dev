@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
 
-import 'package:hatch_box/login.dart';
+import 'package:hatch_box/auth_screens/login.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
+import 'package:hatch_box/main_screens/Home.dart';
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 

@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
-import 'package:hatch_box/datab.dart';
-import 'package:hatch_box/login.dart';
+import 'package:hatch_box/main_screens/Home.dart';
+import 'package:hatch_box/function_screens/datab.dart';
+import 'package:hatch_box/auth_screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyRegister extends StatefulWidget {
@@ -299,11 +299,11 @@ class _SignPPState extends State<SignPP> {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         UserCredential result =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
+          email: emailController.text.toLowerCase().trim(),
           password: passController.text.trim(),
         );
         User? user = result.user;
-        await DatabaseService(uid:user!.uid).updateUserData( unameController.text, phController.text,"222",emailController.text );
+        await DatabaseService(uid:user!.uid).updateUserData( unameController.text, phController.text,"222",emailController.text,"");
       } on FirebaseAuthException catch (e) {
         print(e.toString());
       }

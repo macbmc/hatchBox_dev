@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:hatch_box/Home.dart';
-import 'package:hatch_box/register.dart';
+import 'package:hatch_box/main_screens/Home.dart';
+import 'package:hatch_box/auth_screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MyLogin extends StatefulWidget {

@@ -8,17 +8,17 @@ class DatabaseService{
 
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
 
-  Future updateUserData(String name,String phoneno,String pin,String emaill) async{
+  Future updateUserData(String name,String phoneno,String pin,String emaill,String image) async{
     return await userCollection.doc(uid).set({
       'name': name,
       'email':emaill,
       'phoneno':phoneno,
       'pincode':pin,
-
+      'image':image
     });
   }
 
-  Future getData() async{
+ /* Future getData() async{
     final DocumentSnapshot userDoc =await FirebaseFirestore.instance.collection("users").doc(uid).get();
     String _name= userDoc.get("name");
     String phno= userDoc.get("phoneno");
@@ -27,6 +27,6 @@ class DatabaseService{
     return _name;
     print(_name);
     print(vno);
-  }
+  }*/
 
 }

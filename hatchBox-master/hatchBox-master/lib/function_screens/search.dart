@@ -3,13 +3,13 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:hatch_box/inspect.dart';
-import 'package:hatch_box/prof.dart';
+import 'package:hatch_box/main_screens/inspect.dart';
+import 'package:hatch_box/side_screens/prof.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hatch_box/search.dart';
-import 'package:hatch_box/searchget.dart';
-import 'package:hatch_box/table.dart';
-import 'package:hatch_box/Home.dart';
+import 'package:hatch_box/function_screens/search.dart';
+import 'package:hatch_box/function_screens/searchget.dart';
+import 'package:hatch_box/main_screens/table.dart';
+import 'package:hatch_box/main_screens/Home.dart';
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
@@ -36,7 +36,7 @@ class _SearchState extends State<Search> {
                       .push(MaterialPageRoute(builder: (context) {
                     return DetP(ImgPath:snapshotdata!.docs[index]['image'].toString(),discount:snapshotdata!.docs[index]['discount'].toString(),mrp: snapshotdata!.docs[index]['mrp'].toString(),
                       name: snapshotdata!.docs[index]['name'].toString(),your_price: snapshotdata!.docs[index]['your_price'].toString(),ls: snapshotdata!.docs[index]['ls'].toString(),ss:snapshotdata!.docs[index]['ss'].toString(),
-                      rev: snapshotdata!.docs[index]['rev'].toString(),);
+                      rev: snapshotdata!.docs[index]['rev'].toString(),status:snapshotdata!.docs[index]['status'].toString(),cat:snapshotdata!.docs[index]['category '].toString(),);
                   }));
                 },
                 child: ListTile(

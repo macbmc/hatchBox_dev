@@ -3,14 +3,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hatch_box/cart.dart';
-import 'package:hatch_box/inspect.dart';
-import 'package:hatch_box/messages.dart';
-import 'package:hatch_box/prof.dart';
+import 'package:hatch_box/main_screens/cart.dart';
+import 'package:hatch_box/main_screens/inspect.dart';
+import 'package:hatch_box/main_screens/orders.dart';
+import 'package:hatch_box/side_screens/messages.dart';
+import 'package:hatch_box/side_screens/prof.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hatch_box/search.dart';
-import 'package:hatch_box/table.dart';
-import 'package:hatch_box/wishlist.dart';
+import 'package:hatch_box/function_screens/search.dart';
+import 'package:hatch_box/main_screens/table.dart';
+import 'package:hatch_box/main_screens/wishlist.dart';
 
 class HomeP extends StatefulWidget {
   const HomeP({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _HomePState extends State<HomeP> {
   }
   final List<Widget> screens =[
     HomePP(),
-    Messages(),
+    Order(),
     Wishlist(),
     Cart(),
     ProfP(),
@@ -48,8 +49,8 @@ class _HomePState extends State<HomeP> {
         currentIndex: sindex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home),label:"Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.message_rounded),label:"Messages"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite),label:""),
+          BottomNavigationBarItem(icon: Icon(Icons.timer),label:"Orders"),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite),label:"Wish"),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),label:"Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.person),label:"Profile"),
         ],
@@ -146,21 +147,26 @@ class _HomePPState extends State<HomePP> {
                       SizedBox(
                         height: 40,
                       ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                        child: SizedBox(
-                          height: 200,
-                          width: double.infinity,
-                          child: PageView.builder(
-                              itemCount: images.length,
-                              itemBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 400,
-                                  width: double.infinity,
-                                  child: Image.asset(images[index],
-                                    fit: BoxFit.cover,),
-                                );
-                              }),
+                      GestureDetector(
+                        onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                          return TablePP(category: "table");
+                        }));},
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          child: SizedBox(
+                            height: 200,
+                            width: double.infinity,
+                            child: PageView.builder(
+                                itemCount: images.length,
+                                itemBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 400,
+                                    width: double.infinity,
+                                    child: Image.asset(images[index],
+                                      fit: BoxFit.cover,),
+                                  );
+                                }),
+                          ),
                         ),
                       ),
 
@@ -270,34 +276,38 @@ class _HomePPState extends State<HomePP> {
                       SizedBox(height: 30,),
                       Text("Popular Merchandise",style: TextStyle(color: Colors.blueGrey,fontSize: 20,fontWeight:FontWeight.bold),),
                       SizedBox(height: 20,),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        width:  MediaQuery.of(context).size.width,
-                        child: StreamBuilder(
-                            stream: FirebaseFirestore.instance.collection("home").snapshots(),
-                            builder: (BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot){
-                              if(snapshot.hasError)
-                              {
-                                return Text("Some Unknown Error has occured please try again");
+                      Container(
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          width:  MediaQuery.of(context).size.width,
+                          child: StreamBuilder(
+                              stream: FirebaseFirestore.instance.collection("home").snapshots(),
+                              builder: (BuildContext context,AsyncSnapshot <QuerySnapshot> snapshot){
+                                if(snapshot.hasError)
+                                {
+                                  return Text("Some Unknown Error has occured please try again");
+                                }
+                                return ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (_,index){
+                                    DocumentSnapshot _snap=snapshot.data!.docs[index];
+                                    return Product(ImgPath:_snap['image'].toString(),
+                                        name:_snap['name'].toString(),
+                                        discount: _snap['discount'].toString(),
+                                        mrp: _snap['mrp'].toString(),
+                                        your_price: _snap['your_price'].toString(),
+                                        cat: _snap['category'].toString(),
+                                        long_description: _snap['long_description'].toString(),
+                                        status: _snap['status'].toString(),
+                                       short_description: _snap['short_description'].toString(),
+                                       review: _snap['rev'].toString(),
+
+                                    );
+                                  },
+                                );
                               }
-                              return ListView.builder(
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (_,index){
-                                  DocumentSnapshot _snap=snapshot.data!.docs[index];
-                                  return Product(ImgPath:_snap['image'].toString(),
-                                      name:_snap['name'].toString(),
-                                      discount: _snap['discount'].toString(),
-                                      mrp: _snap['mrp'].toString(),
-                                      your_price: _snap['your_price'].toString(),
-                                      cat: _snap['category'].toString(),
-                                      long_description: _snap['long_description'].toString(),
-                                      status: _snap['status'].toString(),
-                                     short_description: _snap['short_description'].toString(),
-                                     review: _snap['rev'].toString(),
-                                  );
-                                },
-                              );
-                            }
+                          ),
                         ),
                       )
 
@@ -338,7 +348,7 @@ class Product extends StatelessWidget {
         required this.long_description,
         required this.status,
         required this.short_description,
-        required this.review
+        required this.review,
       });
 
   String mrp, discount, your_price, status, long_description,short_description,review;
@@ -352,7 +362,7 @@ class Product extends StatelessWidget {
       child: Stack(children: [
         GestureDetector(
           onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context){
-            return DetP(ImgPath:ImgPath,name:name ,discount: discount,mrp: mrp,your_price: your_price,ls:long_description,ss: short_description,rev: review,);
+            return DetP(ImgPath:ImgPath,name:name ,discount: discount,mrp: mrp,your_price: your_price,ls:long_description,ss: short_description,rev: review,status:status,cat: cat,);
           }));},
           child: Card(
             shape: RoundedRectangleBorder(
